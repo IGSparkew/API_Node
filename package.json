@@ -1,0 +1,26 @@
+{
+  "name": "api_node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DownZeroDay/API_Node.git"
+  },
+  "keywords": [],
+  "author": "Robbrecht Alex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DownZeroDay/API_Node/issues"
+  },
+  "homepage": "https://github.com/DownZeroDay/API_Node#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
