@@ -1,5 +1,5 @@
-
 const Car = require('../Model/carModel');
+
 exports.getCars = (req, res, next) => {
     Car.find().then(cars =>{
         res.status(200).json({
@@ -14,6 +14,28 @@ exports.getCars = (req, res, next) => {
        next(err); 
     })
 };
+
+exports.getCarbyId = (req, res , next)=> {
+    const Id = req.params.carId;
+    Car.findById(Id)
+        .then(car => {
+            if(!car){
+                const error = new Error("id of the sell not find");
+                error.statusCode = 404;
+                throw error;            
+            }
+            res.status(200).json({
+                message:"we find the car",
+                car:car
+            });
+        }).catch(err => {
+            if(!err.statusCode){
+                err.statusCode = 500;
+            }
+            next(err);
+        })
+}
+
 
 
 exports.createCar = (req, res, next) => {
