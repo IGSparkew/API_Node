@@ -42,7 +42,7 @@ node_modules/
 jspm_packages/
 
 #inside image folder
-images/*
+images/[*.png,*.jpeg,*.jpg]
 
 # TypeScript v1 declaration files
 typings/
