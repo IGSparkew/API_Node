@@ -10,8 +10,8 @@ const bodyParser = require('body-parser');
 //Create app in Express
 const app = express();
 
-//Route car import 
-const carRoute = require('./Routes/carRoute');
+//Route sell import 
+const sellRoute = require('./Routes/saleRoute');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -29,7 +29,7 @@ app.use((req,res,next)=>{
 })
 
 // Access to car Routes by /car url 
-app.use('/car',carRoute);
+app.use('/sale',sellRoute);
 
 
 //app on port 3000

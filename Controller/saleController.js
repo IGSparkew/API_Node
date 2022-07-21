@@ -1,11 +1,11 @@
-const Car = require('../Model/carModel');
+const Sale = require('../Model/saleModel');
 
 //GET all cars
-exports.getCars = (req, res, next) => {
-    Car.find().then(cars => {
+exports.getSales = (req, res, next) => {
+    Sale.find().then(sales => {
         res.status(200).json({
-            message: "Get the list of cars with owner!",
-            cars: cars
+            message: "Get the list of sales with owner!",
+            sales: sales
         });
 
     }).catch(err => {
@@ -17,18 +17,18 @@ exports.getCars = (req, res, next) => {
 };
 
 //GET by ID
-exports.getCarbyId = (req, res, next) => {
-    const Id = req.params.carId;
-    Car.findById(Id)
-        .then(car => {
-            if (!car) {
-                const error = new Error("id of the sell not find");
+exports.getSalebyId = (req, res, next) => {
+    const Id = req.params.saleId;
+    Sale.findById(Id)
+        .then(sale => {
+            if (!sale) {
+                const error = new Error("id of the sale not find");
                 error.statusCode = 404;
                 throw error;
             }
             res.status(200).json({
-                message: "we find the car",
-                car: car
+                message: "we find the sale",
+                sale: sale
             });
         }).catch(err => {
             if (!err.statusCode) {
@@ -39,24 +39,24 @@ exports.getCarbyId = (req, res, next) => {
 }
 
 //Add car 
-exports.createCar = (req, res, next) => {
+exports.newSale = (req, res, next) => {
     const mark = req.body.mark;
     const model = req.body.model;
     const owner = req.body.owner;
     const seller = req.body.seller;
 
-    const _car = new Car({
+    const _sale = new Sale({
         mark: mark,
         model: model,
         owner: owner,
         seller: seller
     });
 
-    _car.save()
+    _sale.save()
         .then(result => {
             res.status(201).json({
-                message: "new Owner of car in park!",
-                car: result
+                message: "New sale!",
+                sale: result
             });
         }).catch(err => {
             console.log(err);
