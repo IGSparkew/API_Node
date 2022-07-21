@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 //Get Body Parser module
 const bodyParser = require('body-parser'); 
 
-//dot-env
+//dot-env import 
 require('dotenv').config();
 
 //Create app in Express

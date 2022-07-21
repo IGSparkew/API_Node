@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 
 const SellerModel = new Schema({
-    nom:{
+    name:{
         type:String,
         required:true
     },
-    prenom:{
+    firstname:{
         type:String,
         required:true
     },
