@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 //Get Body Parser module
 const bodyParser = require('body-parser'); 
 
+//dot-env
+require('dotenv').config();
+
 //Create app in Express
 const app = express();
 
@@ -41,7 +44,7 @@ app.use('images',express.static(path.join(__dirname,'images')));
 //app on port 3000
 mongoose
     .connect(
-    'mongodb+srv://admin:1yTHZUIfqZ9fDT7N@cluster0.l49fyqh.mongodb.net/api'
+    `mongodb+srv://${process.env.USER_DB}:${process.env.PASSWORD_DB}@cluster0.l49fyqh.mongodb.net/api`
     ).then(result => {
         app.listen(8080)
     }).catch(err=>console.log(err));
