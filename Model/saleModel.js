@@ -7,6 +7,10 @@ const saleSchema = new Schema({
         type: String,
         required: true
     },
+    productImageUrl:{
+        type: String,
+        required:true
+    },
     model:{
         type: String,
         required: true

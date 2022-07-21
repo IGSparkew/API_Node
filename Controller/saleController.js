@@ -41,11 +41,22 @@ exports.getSalebyId = (req, res, next) => {
 
 //Add car 
 exports.newSale = (req, res, next) => {
+    console.log(req);
     
     const bodyContent = validationResult(req);
 
+    //verify field
     if(bodyContent.isEmpty()) {
         const error = new Error('Invalid data in field please enter correct field');
+        error.statusCode = 422;
+        throw error;
+    }
+
+
+
+    //verify image upload
+    if(!req.file){
+        const error = new Error('No image found for this sale')
         error.statusCode = 422;
         throw error;
     }
@@ -54,10 +65,12 @@ exports.newSale = (req, res, next) => {
     const model = req.body.model;
     const owner = req.body.owner;
     const seller = req.body.seller;
+    const productImageUrl = req.file.path;
 
     const _sale = new Sale({
         mark: mark,
         model: model,
+        productImageUrl:productImageUrl,
         owner: owner,
         seller: seller
     });

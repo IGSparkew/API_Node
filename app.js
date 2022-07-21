@@ -1,6 +1,9 @@
 //Get express module
 const express = require('express');
 
+//import path
+const path = require('path');
+
 //import mongoose
 const mongoose = require('mongoose');
 
@@ -18,8 +21,10 @@ app.get('/', (req, res) => {
 });
 
 //user body parser to get body for post request in x-www-form-encoded
-app.use(bodyParser.urlencoded());
-//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
+
 
 app.use((req,res,next)=>{
     res.setHeader('Access-Allow-Origin', '*');
@@ -28,8 +33,10 @@ app.use((req,res,next)=>{
     next();
 })
 
-// Access to car Routes by /car url 
+// Access to sale Routes by /sale url 
 app.use('/sale',sellRoute);
+
+app.use('images',express.static(path.join(__dirname,'images')));
 
 
 //app on port 3000
@@ -37,5 +44,5 @@ mongoose
     .connect(
     'mongodb+srv://admin:1yTHZUIfqZ9fDT7N@cluster0.l49fyqh.mongodb.net/api'
     ).then(result => {
-        app.listen(3000)
+        app.listen(8080)
     }).catch(err=>console.log(err));
