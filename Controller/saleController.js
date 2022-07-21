@@ -41,19 +41,13 @@ exports.getSalebyId = (req, res, next) => {
 
 //Add car 
 exports.newSale = (req, res, next) => {
-    console.log(req);
-    
     const bodyContent = validationResult(req);
-
     //verify field
     if(bodyContent.isEmpty()) {
         const error = new Error('Invalid data in field please enter correct field');
         error.statusCode = 422;
         throw error;
     }
-
-
-
     //verify image upload
     if(!req.file){
         const error = new Error('No image found for this sale')
@@ -87,8 +81,71 @@ exports.newSale = (req, res, next) => {
 
 
 };
+//Update sale
+exports.update=(req, res,next) => {
+    const saleId = req.params.saleId;
+    if(!saleId){
+        const error = new Error('wrong or not defined id');
+        error.statusCode= 422;
+        throw error; 
+    }
 
-//Update car
+    const errors = validationResult(req);
+    if(errors.isEmpty()){
+        const error = new Error("Field are incorrect or empty");
+        error.statusCode = 422;
+        throw error;
+    }
+
+    console.log(req.file);
+
+    const mark = req.body.mark;
+    const model = req.body.model;
+    const owner = req.body.owner;
+    const seller = req.body.seller; 
+    let productImageUrl = req.body.image; 
+    if(req.file){
+        productImageUrl =  req.file.path;
+    }
+
+    if(!productImageUrl){
+        const error = new Error('No image upload!');
+        error.statusCode = 422;
+        throw error;
+    }
+
+    Sale.findById(saleId).
+        then(sale=>{
+
+            if(!sale){
+                const error = new Error('not find sale');
+                error.statusCode = 404;
+                throw error;
+            }
+
+
+            if(productImageUrl !== sale.productImageUrl){
+              //clear image
+            }
+
+            sale.mark = mark;
+            sale.model = model;
+            sale.owner = owner;
+            sale.seller = seller;
+            sale.productImageUrl = productImageUrl;
+            return sale.save();
+            
+        }).then(result=>{
+            res.status(200).json({message:'Sale Update !'});
+        }).catch((err) => {
+            if(!err.statusCode){
+                err.statusCode = 500;
+            }
+           next(err);
+        })
+
+
+}
 
 
 //Delete 

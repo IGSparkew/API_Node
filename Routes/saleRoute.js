@@ -43,4 +43,11 @@ router.post('/add',[
     body('model').trim().toLowerCase()
 ],upload.single('image'),saleController.newSale);
 
+//PUT
+router.put('/update/:saleId',[
+body('mark').trim().isLength({min: 3}).toLowerCase(),
+body('model').trim().toLowerCase()
+],upload.single('image'),saleController.update);
+
+
 module.exports = router;
