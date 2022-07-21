@@ -1,4 +1,5 @@
 const Sale = require('../Model/saleModel');
+const {validationResult} = require('express-validator');
 
 //GET all cars
 exports.getSales = (req, res, next) => {
@@ -40,6 +41,15 @@ exports.getSalebyId = (req, res, next) => {
 
 //Add car 
 exports.newSale = (req, res, next) => {
+    
+    const bodyContent = validationResult(req);
+
+    if(bodyContent.isEmpty()) {
+        const error = new Error('Invalid data in field please enter correct field');
+        error.statusCode = 422;
+        throw error;
+    }
+
     const mark = req.body.mark;
     const model = req.body.model;
     const owner = req.body.owner;
