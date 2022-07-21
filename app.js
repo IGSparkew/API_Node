@@ -18,6 +18,8 @@ const app = express();
 
 //Route sell import 
 const sellRoute = require('./Routes/saleRoute');
+//Route for Users 
+const userRoute = require('./Routes/sellerRoute');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -36,6 +38,9 @@ app.use((req,res,next)=>{
 
 // Access to sale Routes by /sale url 
 app.use('/sale',sellRoute);
+
+//Access to user Routes by /user
+app.use('/user',userRoute);
 
 //make static file 
 app.use('images',express.static(path.join(__dirname,'images')));

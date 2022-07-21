@@ -20,7 +20,7 @@ const SellerModel = new Schema({
         required:true
     },
     sales:[{
-        type:mongoose.Schema.Types,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'sales'
     }]
 

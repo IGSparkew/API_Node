@@ -20,10 +20,9 @@ const saleSchema = new Schema({
         required:true
     },
     seller:{
-       type:mongoose.Schema.Types.ObjectId,
-       ref:'Seller',
-       required:true
-    }
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Seller',
+     }
 });
 
 module.exports = mongoose.model('sales', saleSchema);
