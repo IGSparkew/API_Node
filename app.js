@@ -20,12 +20,10 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-//user body parser to get body for post request in x-www-form-encoded
-//app.use(bodyParser.urlencoded());
+//user body parser to get body for post request 
 app.use(bodyParser.json());
 
-
-
+//setup response header 
 app.use((req,res,next)=>{
     res.setHeader('Access-Allow-Origin', '*');
     res.setHeader('Access-Allow-Methods', 'OPTIONS GET POST');
@@ -36,6 +34,7 @@ app.use((req,res,next)=>{
 // Access to sale Routes by /sale url 
 app.use('/sale',sellRoute);
 
+//make static file 
 app.use('images',express.static(path.join(__dirname,'images')));
 
 

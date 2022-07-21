@@ -6,8 +6,10 @@ const { body } = require('express-validator');
 
 const saleController = require('../Controller/saleController');
 
+//import multer to storage image file 
 const multer = require('multer');
 
+//configuration of storage disk with destination and filename
 const storageDisk = multer.diskStorage({
     destination:function(req ,file,cb){
         cb(null,'images');
@@ -17,8 +19,17 @@ const storageDisk = multer.diskStorage({
     }
 })
 
-const upload = multer({storage:storageDisk});
+//Filter to limit the type of file we can upload 
+const fileFilter = (req, file, cb)=> {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
+        cb(null,true);
+    }else{
+        cb(null,false);
+    }
+}
 
+//create an upload object 
+const upload = multer({storage:storageDisk,fileFilter:fileFilter});
 
 //GET 
 router.get('/list',saleController.getSales);
@@ -31,10 +42,5 @@ router.post('/add',[
     body('mark').trim().isLength({min: 3}).toLowerCase(),
     body('model').trim().toLowerCase()
 ],upload.single('image'),saleController.newSale);
-
-
-router.post('/image', upload.single('image'), (req,res) => {
-    res.send(req.file.path);
-});
 
 module.exports = router;
