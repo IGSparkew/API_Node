@@ -20,7 +20,8 @@ const saleSchema = new Schema({
         required:true
     },
     seller:{
-       type:String,
+       type:mongoose.Schema.Types.ObjectId,
+       ref:'Seller',
        required:true
     }
 });
