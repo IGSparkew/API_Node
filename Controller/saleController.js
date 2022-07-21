@@ -1,5 +1,6 @@
 const Sale = require('../Model/saleModel');
 const {validationResult} = require('express-validator');
+const path = require('path');
 
 //GET all cars
 exports.getSales = (req, res, next) => {
@@ -81,6 +82,7 @@ exports.newSale = (req, res, next) => {
 
 
 };
+
 //Update sale
 exports.update=(req, res,next) => {
     const saleId = req.params.saleId;
@@ -96,8 +98,6 @@ exports.update=(req, res,next) => {
         error.statusCode = 422;
         throw error;
     }
-
-    console.log(req.file);
 
     const mark = req.body.mark;
     const model = req.body.model;
@@ -123,9 +123,8 @@ exports.update=(req, res,next) => {
                 throw error;
             }
 
-
             if(productImageUrl !== sale.productImageUrl){
-              //clear image
+              clearImage(sale.productImageUrl);
             }
 
             sale.mark = mark;
@@ -143,9 +142,31 @@ exports.update=(req, res,next) => {
             }
            next(err);
         })
-
-
 }
 
+const clearImage = Imageurl => {
+    Imageurl = path.join(__dirname, '..',Imageurl);
+    fs.unlink(Imageurl,err => console.log(err));
+};
 
-//Delete 
+//Delete
+exports.deleteSale = (req,res,next) => {
+    const saleId = req.params.saleId;
+    Sale.findById(Id)
+        .then(sale => {
+            if (!sale) {
+                const error = new Error("id of the sale not find");
+                error.statusCode = 404;
+                throw error;
+            }
+            clearImage(sale.productImageUrl);
+            return Sale.findByIdAndRemove(saleId);  
+        }).then( result =>{
+            res.status(200).json({message: "the Sale is delete"});
+        }).catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        })
+}; 
