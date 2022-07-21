@@ -1,6 +1,7 @@
 const Sale = require('../Model/saleModel');
 const {validationResult} = require('express-validator');
 const path = require('path');
+const fs = require('fs');
 
 //GET all cars
 exports.getSales = (req, res, next) => {
@@ -152,7 +153,7 @@ const clearImage = Imageurl => {
 //Delete
 exports.deleteSale = (req,res,next) => {
     const saleId = req.params.saleId;
-    Sale.findById(Id)
+    Sale.findById(saleId)
         .then(sale => {
             if (!sale) {
                 const error = new Error("id of the sale not find");

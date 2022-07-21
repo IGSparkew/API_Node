@@ -49,5 +49,8 @@ body('mark').trim().isLength({min: 3}).toLowerCase(),
 body('model').trim().toLowerCase()
 ],upload.single('image'),saleController.update);
 
+//DELETE
+router.delete('/delete/:saleId',saleController.deleteSale)
+
 
 module.exports = router;
