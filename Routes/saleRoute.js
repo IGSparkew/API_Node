@@ -39,7 +39,7 @@ router.get('/one/:saleId',saleController.getSalebyId);
 
 //POST
 router.post('/add',[
-    body('mark').trim().isLength({min: 3}).toLowerCase(),
+    body('mark').trim().toLowerCase(),
     body('model').trim().toLowerCase()
 ],upload.single('image'),saleController.newSale);
 

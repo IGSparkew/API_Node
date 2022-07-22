@@ -45,11 +45,12 @@ exports.getSalebyId = (req, res, next) => {
 exports.newSale = (req, res, next) => {
     const bodyContent = validationResult(req);
     //verify field
-    if(bodyContent.isEmpty()) {
+    if(!bodyContent.isEmpty()) {
         const error = new Error('Invalid data in field please enter correct field');
         error.statusCode = 422;
         throw error;
     }
+    
     //verify image upload
     if(!req.file){
         const error = new Error('No image found for this sale')
@@ -94,7 +95,7 @@ exports.update=(req, res,next) => {
     }
 
     const errors = validationResult(req);
-    if(errors.isEmpty()){
+    if(!errors.isEmpty()){
         const error = new Error("Field are incorrect or empty");
         error.statusCode = 422;
         throw error;

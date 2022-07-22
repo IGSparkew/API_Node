@@ -25,7 +25,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-//user body parser to get body for post request 
+//user body parser to get body for post request
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 //setup response header 
