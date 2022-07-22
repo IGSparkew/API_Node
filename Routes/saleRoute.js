@@ -6,6 +6,8 @@ const { body } = require('express-validator');
 
 const saleController = require('../Controller/saleController');
 
+const isSeller = require('../middleware/verificationSeller');
+
 //import multer to storage image file 
 const multer = require('multer');
 
@@ -32,22 +34,22 @@ const fileFilter = (req, file, cb)=> {
 const upload = multer({storage:storageDisk,fileFilter:fileFilter});
 
 //GET 
-router.get('/list',saleController.getSales);
+router.get('/list',isSeller,saleController.getSales);
 
 //GET by ID
-router.get('/one/:saleId',saleController.getSalebyId);
+router.get('/one/:saleId',isSeller,saleController.getSalebyId);
 
 //POST
 router.post('/add',[
     body('mark').trim().toLowerCase(),
     body('model').trim().toLowerCase()
-],upload.single('image'),saleController.newSale);
+],upload.single('image'),isSeller,saleController.newSale);
 
 //PUT
 router.put('/update/:saleId',[
 body('mark').trim().isLength({min: 3}).toLowerCase(),
 body('model').trim().toLowerCase()
-],upload.single('image'),saleController.update);
+],upload.single('image'),isSeller,saleController.update);
 
 //DELETE
 router.delete('/delete/:saleId',saleController.deleteSale)

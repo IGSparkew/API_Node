@@ -1,4 +1,5 @@
 const Sale = require('../Model/saleModel');
+const Saller = require('../Model/sellerModel');
 const {validationResult} = require('express-validator');
 const path = require('path');
 const fs = require('fs');
@@ -53,34 +54,44 @@ exports.newSale = (req, res, next) => {
     
     //verify image upload
     if(!req.file){
-        const error = new Error('No image found for this sale')
+        const error = new Error('No image found for this sale');
         error.statusCode = 422;
+        throw error;
+    }
+
+    if(!req.userId){
+        const error = new Error('you are not login in seller');
+        error.statusCode = 401;
         throw error;
     }
 
     const mark = req.body.mark;
     const model = req.body.model;
     const owner = req.body.owner;
-    const seller = req.body.seller;
     const productImageUrl = req.file.path;
 
-    const _sale = new Sale({
-        mark: mark,
-        model: model,
-        productImageUrl:productImageUrl,
-        owner: owner,
-        seller: seller
+    Saller.findById(req.userId).then(seller => {
+
+        const _sale = new Sale({
+            mark: mark,
+            model: model,
+            productImageUrl:productImageUrl,
+            owner: owner,
+            seller: seller.id
+        });
+    
+        _sale.save()
+            .then(result => {
+                res.status(201).json({
+                    message: "New sale!",
+                    sale: result
+                });
+            }).catch(err => {
+                console.log(err);
+            });
     });
 
-    _sale.save()
-        .then(result => {
-            res.status(201).json({
-                message: "New sale!",
-                sale: result
-            });
-        }).catch(err => {
-            console.log(err);
-        });
+    
 
 
 };
@@ -105,6 +116,7 @@ exports.update=(req, res,next) => {
     const model = req.body.model;
     const owner = req.body.owner;
     const seller = req.body.seller; 
+
     let productImageUrl = req.body.image; 
     if(req.file){
         productImageUrl =  req.file.path;
