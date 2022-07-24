@@ -3,6 +3,8 @@ const { validationResult, body } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
 exports.register = (req, res, next) => {
     const bodyContent = validationResult(req);
 
@@ -69,7 +71,7 @@ exports.login = (req, res, next) =>{
             throw error;            
         }
 
-        const token = jwt.sign({email: loginedUser.email, userId: loginedUser._id.toString()},'backtothebackend',{expiresIn: '1h'});
+        const token = jwt.sign({email: loginedUser.email, userId: loginedUser._id.toString()},process.env.TOKEN,{expiresIn: '1h'});
         res.status(200).json({
             token: token,
             userId: loginedUser._id.toString()

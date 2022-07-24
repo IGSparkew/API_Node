@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
   console.log(token);
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'backtothebackend');
+    decodedToken = jwt.verify(token, process.env.TOKEN);
   } catch (err) {
     err.statusCode = 500;
     throw err;
