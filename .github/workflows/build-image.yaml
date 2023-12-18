@@ -1,0 +1,10 @@
+name: build-image CI
+on:
+  - push:
+      branch: main
+jobs:
+  build-api:
+    runs-on: alpine-minirootfs-3.19.0
+    steps:
+      - run: echo "Hello world"
+
