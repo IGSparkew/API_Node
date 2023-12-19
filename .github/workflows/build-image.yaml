@@ -1,11 +1,34 @@
 name: build-image CI
 on:
-   push:
-      branches: [ 'main' ]
+  push:
+    branches: [ 'main' ]
 
 jobs:
-  build-api:
+  build_image:
+    name: Build Docker image
     runs-on: ubuntu-22.04
+    env:
+      IMAGE_NAME: "mynode:19"
     steps:
-      - run: echo "Hello world"
+      - uses: action/checkout@v3
+        with:
+          - dockerfile: Dockerfile
+      - run: docker image build --tag="${IMAGE_NAME}" ./
+      - run: docker container run "${IMAGE_NAME}" npm run lint
+      - run: docker image build --tag=sparkew74/api_node:${{ github.ref_name }} ./
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          username: sparkew74
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push if on `main`
+        uses: docker/build-push-action@v4
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          push: true
+          context: ./
+          tags: sparkew74/api_node:${{ github.ref_name }}
+
+
 
