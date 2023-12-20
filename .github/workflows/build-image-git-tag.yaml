@@ -1,6 +1,6 @@
 name: build-image-tags
 on:
-  push:
+  create:
     tags:
       - '*'
 jobs:
