@@ -1,8 +1,8 @@
 name: build-image CI
 on:
-  - push:
-      branches:
-        - main
+  push:
+    branches:
+      - main
 
 jobs:
   build_image:
