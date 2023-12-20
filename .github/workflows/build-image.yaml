@@ -1,7 +1,7 @@
 name: build-image CI
 on:
-  push:
-    branches: [ 'main' ]
+  - push:
+      branch: [ 'main' ]
 
 jobs:
   build_image:
