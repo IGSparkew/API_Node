@@ -2,7 +2,7 @@ name: build-image CI
 on:
   push:
     branches:
-      - main
+      - Ajout-ci-build-docker
 
 jobs:
   build_image:
