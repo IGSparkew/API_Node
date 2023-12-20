@@ -11,7 +11,7 @@ jobs:
     env:
       IMAGE_NAME: "mynode:19"
     steps:
-      - uses: action/checkout@v4
+      - uses: actions/checkout@v3
         with:
           dockerfile: Dockerfile
       - run: docker image build --tag="${IMAGE_NAME}" ./
