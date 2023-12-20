@@ -1,8 +1,8 @@
-name: build-image CI
+name: build-image-latest
 on:
   push:
     branches:
-      - fix-ci-cd-build
+      - main
 
 jobs:
   build_image:
