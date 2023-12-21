@@ -1,8 +1,8 @@
 # CI/CD
 
 ## Commandes CI
-npm run test
-npm run lint
+- npm run test
+- npm run lint
 
 ## CD 
 lien du livrable docker
