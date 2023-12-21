@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 
 jest.mock('express-validator');
+jest.mock('bcrypt');
 
 describe('Seller Controller Tests', () => {
   beforeEach(() => {
@@ -18,7 +19,7 @@ describe('Seller Controller Tests', () => {
         name: 'FakeName',
         firstname: 'FakeFirstName',
         email: 'fake@example.com',
-        password: 'fakePassword',
+        password: 'mockedHashValue',
       },
     };
     const mockRes = {
@@ -26,6 +27,10 @@ describe('Seller Controller Tests', () => {
       json: jest.fn(),
     };
     const mockNext = jest.fn();
+
+    const spiedBcryptHashMethod = jest
+      .spyOn(bcrypt, 'hash')
+      .mockImplementation(() => Promise.resolve(''));
 
     await register(mockReq, mockRes, mockNext);
 
@@ -44,6 +49,10 @@ describe('Seller Controller Tests', () => {
     });
 
     jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
+
+    const spiedBcryptHashMethod = jest
+      .spyOn(bcrypt, 'hash')
+      .mockImplementation(() => Promise.resolve(''));
 
     const mockReq = {
       body: {
