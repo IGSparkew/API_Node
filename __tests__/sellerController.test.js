@@ -2,6 +2,7 @@ const { register, login } = require('../Controller/sellerController');
 const Seller = require('../Model/sellerModel');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const mockingoose = require('mockingoose');
 
 jest.mock('express-validator');
 jest.mock('bcrypt');
@@ -9,7 +10,11 @@ jest.mock('bcrypt');
 describe('Seller Controller Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockingoose.resetAll();
   });
+
+  jest.spyOn(bcrypt, 'hash')
+    .mockImplementation(() => Promise.resolve(''));
 
   it('should register a new seller', async () => {
     validationResult.mockReturnValue({ isEmpty: jest.fn().mockReturnValue(true) });
@@ -19,7 +24,7 @@ describe('Seller Controller Tests', () => {
         name: 'FakeName',
         firstname: 'FakeFirstName',
         email: 'fake@example.com',
-        password: 'mockedHashValue',
+        password: '',
       },
     };
     const mockRes = {
@@ -28,9 +33,22 @@ describe('Seller Controller Tests', () => {
     };
     const mockNext = jest.fn();
 
-    const spiedBcryptHashMethod = jest
-      .spyOn(bcrypt, 'hash')
-      .mockImplementation(() => Promise.resolve(''));
+    fakeSeller = {
+      _id: 'fakeSellerId',
+      name: 'FakeName',
+      firstname: 'FakeFirstName',
+      email: 'fake@example.com',
+      password: '',
+      save: Seller.prototype.save.mockResolvedValueOnce({
+        _id: 'newfakeSellerId',
+        name: 'FakeName',
+        firstname: 'FakeFirstName',
+        email: 'fake@example.com',
+        password: '',
+      }),
+    };
+
+    mockingoose(Seller).toReturn(fakeSeller, 'findOne');
 
     await register(mockReq, mockRes, mockNext);
 
@@ -50,14 +68,12 @@ describe('Seller Controller Tests', () => {
 
     jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
 
-    const spiedBcryptHashMethod = jest
-      .spyOn(bcrypt, 'hash')
-      .mockImplementation(() => Promise.resolve(''));
-
     const mockReq = {
       body: {
         email: 'fake@example.com',
         password: 'fakePassword',
+        name: 'fakeName',
+        firstname: 'fakeFirstname'
       },
     };
     const mockRes = {
