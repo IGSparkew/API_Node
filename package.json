@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,11 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "mockingoose": "^2.16.2",
     "nodemon": "^2.0.19"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
