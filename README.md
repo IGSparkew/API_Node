@@ -1,3 +1,15 @@
+# CI/CD
+
+## Commandes CI
+npm run test
+npm run lint
+
+## CD 
+lien du livrable docker
+https://hub.docker.com/r/sparkew74/api_node
+
+A la création d'un git tag et au git push --tags sur main, création de la release docker hub correspondante
+
 # API_Node
 
 # Sales interaction [/sale]
