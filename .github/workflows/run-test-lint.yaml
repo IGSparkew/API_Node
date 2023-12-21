@@ -1,0 +1,16 @@
+name: build-image CI
+on:
+   push:
+      branches: [ 'main' ]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-22.04
+    steps:
+      - run: npm test
+  eslint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: stefanoeb/eslint-action@1.0.2
+
